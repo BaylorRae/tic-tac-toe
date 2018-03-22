@@ -21,6 +21,10 @@ class Board
     next_player
   end
 
+  def game_over?
+    !(squares - ['-']).empty?
+  end
+
   private
 
   def sliced_squares
