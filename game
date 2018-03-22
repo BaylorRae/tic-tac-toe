@@ -3,4 +3,6 @@
 require './lib/board'
 
 board = Board.new
+board.make_move(1)
+board.make_move(5)
 board.draw
