@@ -3,6 +3,67 @@
 require './lib/board'
 
 board = Board.new
-board.make_move(1)
-board.make_move(5)
-board.draw
+
+system 'clear'
+
+last_move_invalid = false
+position = nil
+
+loop do
+  if position =~ /q/i
+    break
+  end
+
+  # first move
+  if position.nil?
+    board.draw
+    puts
+    puts
+    print 'Make Move: '
+    position = gets.chomp
+  end
+
+  if last_move_invalid
+    board.draw
+    puts
+    puts "Invalid move"
+    print 'Make Move: '
+    position = gets.chomp
+    last_move_invalid = false
+  end
+
+  if position =~ /^[^\d]+$/
+    system 'clear'
+
+    board.draw
+    puts
+    puts "Please enter a number"
+    print 'Make Move: '
+    position = gets.chomp
+  else
+    system 'clear'
+
+    if !board.make_move(position.to_i)
+      last_move_invalid = true
+      next
+    end
+
+    board.draw
+    puts
+    puts
+    print 'Make Move: '
+    position = gets.chomp
+  end
+
+  if board.winner
+    system 'clear'
+
+    board.draw
+    puts
+    puts "We have a winner! It was #{board.winner.upcase}"
+    print 'Press any key to continue'
+    gets
+    position = 'q'
+  end
+
+end
